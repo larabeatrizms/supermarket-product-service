@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CategoryController } from './controllers/category.controller';
 
 import { CreateCategoryService } from './services/create-category.service';
+import { UpdateCategoryService } from './services/update-category.service';
 
 import { CategoryRepository } from './repositories/category/category.repository';
 
@@ -15,6 +16,7 @@ import { FilesAzureService } from 'src/shared/providers/azure-files/files-azure.
   imports: [TypeOrmModule.forFeature([Category])],
   providers: [
     CreateCategoryService,
+    UpdateCategoryService,
     {
       provide: 'CategoryRepositoryInterface',
       useClass: CategoryRepository,

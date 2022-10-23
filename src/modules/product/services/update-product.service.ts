@@ -93,7 +93,7 @@ export class UpdateProductService {
 
       return {
         success: true,
-        message: 'Product updated!',
+        message: 'Produto atualizado!',
         details: {
           product_id: product.id,
         },
