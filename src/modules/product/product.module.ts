@@ -9,6 +9,8 @@ import { ProductRepository } from './repositories/product/product.repository';
 
 import { Product } from './entities/product.entity';
 
+import { FilesAzureService } from 'src/shared/providers/azure-files/files-azure.service';
+
 @Module({
   imports: [TypeOrmModule.forFeature([Product])],
   providers: [
@@ -17,6 +19,7 @@ import { Product } from './entities/product.entity';
       provide: 'ProductRepositoryInterface',
       useClass: ProductRepository,
     },
+    FilesAzureService,
   ],
   controllers: [ProductController],
   exports: [],

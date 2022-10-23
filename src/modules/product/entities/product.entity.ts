@@ -23,6 +23,11 @@ export class Product {
   description: string;
 
   @Column()
+  image: string;
+
+  @Column({
+    type: 'float',
+  })
   price: number;
 
   @CreateDateColumn({

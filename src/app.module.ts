@@ -8,7 +8,9 @@ import { ProductModule } from './modules/product/product.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     ProductModule,
     TypeOrmModule.forRoot({
       type: 'postgres',

@@ -4,4 +4,5 @@ export interface CreateProductInterface {
   sku: string;
   description: string;
   price: number;
+  file: Express.Multer.File;
 }

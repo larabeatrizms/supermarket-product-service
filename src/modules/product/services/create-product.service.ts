@@ -4,6 +4,7 @@ import { CreateProductInterface } from '../dtos/create-product.interface';
 import { RpcException } from '@nestjs/microservices';
 import { ISuccessResponse } from 'src/shared/interfaces/SuccessResponse.interface';
 import { ProductRepositoryInterface } from '../repositories/product/product.interface.repository';
+import { FilesAzureService } from 'src/shared/providers/azure-files/files-azure.service';
 
 export class CreateProductService {
   private readonly logger = new Logger(CreateProductService.name);
@@ -11,6 +12,7 @@ export class CreateProductService {
   constructor(
     @Inject('ProductRepositoryInterface')
     private readonly productRepository: ProductRepositoryInterface,
+    private readonly fileService: FilesAzureService,
   ) {}
 
   async execute(
@@ -21,23 +23,37 @@ export class CreateProductService {
 
       this.logger.log('Validating fields...');
 
-      // const userAlreadyCreated = await this.userRepository.findOneByCondition({
-      //   email: userData.email,
-      // });
+      const productAlreadyCreated =
+        await this.productRepository.findOneByCondition({
+          sku: data.sku,
+        });
 
-      // if (userAlreadyCreated) {
-      //   throw new RpcException('Este e-mail já está cadastrado.');
-      // }
+      if (productAlreadyCreated) {
+        throw new RpcException('Produto com este sku já está cadastrado.');
+      }
 
-      // const user = await this.userRepository.create(userData);
+      const buffer = Buffer.from(data.file.buffer);
 
-      // this.logger.log(`User created! Email: ${userData.email}`);
+      const uploadUrl = await this.fileService.uploadFile({
+        ...data.file,
+        buffer,
+      });
+
+      const product = await this.productRepository.create({
+        name: data.name,
+        description: data.description,
+        sku: data.sku,
+        image: uploadUrl,
+        price: Number(data.price),
+      });
+
+      this.logger.log(`Product created! Name: ${data.name}`);
 
       return {
         success: true,
-        message: 'Product created!',
+        message: 'Produto Criado!',
         details: {
-          product_id: 'product_id',
+          product_id: product.id,
         },
       };
     } catch (error) {
