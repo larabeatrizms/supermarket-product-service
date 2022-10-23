@@ -39,7 +39,7 @@ services:
       DB_PORT: 5432
       DB_NAME: ${{ secrets.db_name }}
       PORT: 8081
-      HOST: 0.0.0.0
+      HOST: "0.0.0.0"
       AZURE_CONNECTION_STRING: ${{ secrets.azure_connection_string }}
       AZURE_CONTAINER_FILE_NAME: imageupload
     # Mount our src directory to the container and use our dev command so we get hot-reloading
