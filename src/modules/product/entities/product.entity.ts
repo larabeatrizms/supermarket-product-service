@@ -5,7 +5,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Unique,
+  OneToMany,
 } from 'typeorm';
+import { ProductPricingHistory } from './product-pricing-history.entity';
 
 @Entity()
 @Unique(['sku'])
@@ -29,6 +31,12 @@ export class Product {
     type: 'float',
   })
   price: number;
+
+  @OneToMany(
+    () => ProductPricingHistory,
+    (productPricingHistory) => productPricingHistory.product,
+  )
+  pricingHistory: ProductPricingHistory[];
 
   @CreateDateColumn({
     name: 'created_at',

@@ -5,6 +5,7 @@ import { RpcException } from '@nestjs/microservices';
 import { ISuccessResponse } from 'src/shared/interfaces/SuccessResponse.interface';
 import { ProductRepositoryInterface } from '../repositories/product/product.interface.repository';
 import { FilesAzureService } from 'src/shared/providers/azure-files/files-azure.service';
+import { ProductPricingHistoryRepositoryInterface } from '../repositories/product-pricing-history/product-pricing-history.interface.repository';
 
 export class CreateProductService {
   private readonly logger = new Logger(CreateProductService.name);
@@ -12,6 +13,8 @@ export class CreateProductService {
   constructor(
     @Inject('ProductRepositoryInterface')
     private readonly productRepository: ProductRepositoryInterface,
+    @Inject('ProductPricingHistoryRepositoryInterface')
+    private readonly productPricingHistoryRepository: ProductPricingHistoryRepositoryInterface,
     private readonly fileService: FilesAzureService,
   ) {}
 
@@ -44,6 +47,11 @@ export class CreateProductService {
         description: data.description,
         sku: data.sku,
         image: uploadUrl,
+        price: Number(data.price),
+      });
+
+      await this.productPricingHistoryRepository.create({
+        product_id: product.id,
         price: Number(data.price),
       });
 

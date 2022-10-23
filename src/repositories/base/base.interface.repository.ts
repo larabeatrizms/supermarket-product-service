@@ -9,7 +9,7 @@ export interface BaseInterfaceRepository<T> {
 
   findOneById(id: number): Promise<T>;
 
-  findOneByCondition(filterCondition: any): Promise<T>;
+  findOneByCondition(filterCondition: any, order?: any): Promise<T>;
 
   findAll(): Promise<T[]>;
 
