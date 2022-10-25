@@ -1,6 +1,7 @@
 import { Inject, Logger } from '@nestjs/common';
 
 import { RpcException } from '@nestjs/microservices';
+import { CategoryRepositoryInterface } from 'src/modules/category/repositories/category/category.interface.repository';
 import { ISuccessResponse } from 'src/shared/interfaces/SuccessResponse.interface';
 import { FilesAzureService } from 'src/shared/providers/azure-files/files-azure.service';
 import { IUpdateProduct } from '../dtos/update-product.interface';
@@ -15,6 +16,8 @@ export class UpdateProductService {
     private readonly productRepository: ProductRepositoryInterface,
     @Inject('ProductPricingHistoryRepositoryInterface')
     private readonly productPricingHistoryRepository: ProductPricingHistoryRepositoryInterface,
+    @Inject('CategoryRepositoryInterface')
+    private readonly categoryRepository: CategoryRepositoryInterface,
     private readonly fileService: FilesAzureService,
   ) {}
 
@@ -24,12 +27,20 @@ export class UpdateProductService {
 
       this.logger.log('Validating fields...');
 
-      const { id, sku, name, description, price, file } = data;
+      const { id, sku, name, description, price, file, category_id } = data;
 
       const product = await this.productRepository.findOneById(id);
 
       if (!product) {
         throw new RpcException('Produto não encontrado!');
+      }
+
+      const category = await this.categoryRepository.findOneById(
+        data.category_id,
+      );
+
+      if (!category) {
+        throw new RpcException('Categoria não encontrada!');
       }
 
       // Caso atualize "sku", verifica se já existe produto com o mesmo "sku"
@@ -86,6 +97,7 @@ export class UpdateProductService {
       product.description = description;
       product.price = Number(price);
       product.sku = sku;
+      product.category_id = category_id;
 
       await this.productRepository.update(product);
 

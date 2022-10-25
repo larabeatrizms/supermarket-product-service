@@ -1,3 +1,4 @@
+import { Category } from 'src/modules/category/entities/category.entity';
 import {
   Entity,
   Column,
@@ -6,6 +7,8 @@ import {
   UpdateDateColumn,
   Unique,
   OneToMany,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { ProductPricingHistory } from './product-pricing-history.entity';
 
@@ -31,6 +34,13 @@ export class Product {
     type: 'float',
   })
   price: number;
+
+  @Column()
+  category_id: number;
+
+  @ManyToOne(() => Category, (category) => category.products)
+  @JoinColumn({ name: 'category_id' })
+  category: Category;
 
   @OneToMany(
     () => ProductPricingHistory,

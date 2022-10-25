@@ -12,8 +12,8 @@ export class CategoryRepository
 {
   constructor(
     @InjectRepository(Category)
-    private readonly productsRepository: Repository<Category>,
+    private readonly categoriesRepository: Repository<Category>,
   ) {
-    super(productsRepository);
+    super(categoriesRepository);
   }
 }

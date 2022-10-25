@@ -1,3 +1,4 @@
+import { Product } from 'src/modules/product/entities/product.entity';
 import {
   Entity,
   Column,
@@ -5,6 +6,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Unique,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -21,6 +23,9 @@ export class Category {
 
   @Column()
   image: string;
+
+  @OneToMany(() => Product, (product) => product.category)
+  products: Product[];
 
   @CreateDateColumn({
     name: 'created_at',

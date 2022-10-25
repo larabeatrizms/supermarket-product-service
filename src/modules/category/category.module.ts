@@ -24,6 +24,11 @@ import { FilesAzureService } from 'src/shared/providers/azure-files/files-azure.
     FilesAzureService,
   ],
   controllers: [CategoryController],
-  exports: [],
+  exports: [
+    {
+      provide: 'CategoryRepositoryInterface',
+      useClass: CategoryRepository,
+    },
+  ],
 })
 export class CategoryModule {}

@@ -5,4 +5,5 @@ export interface IUpdateProduct {
   description: string;
   price: number;
   file: Express.Multer.File;
+  category_id: number;
 }

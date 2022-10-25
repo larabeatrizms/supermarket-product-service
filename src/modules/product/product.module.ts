@@ -13,9 +13,14 @@ import { Product } from './entities/product.entity';
 import { ProductPricingHistory } from './entities/product-pricing-history.entity';
 
 import { FilesAzureService } from 'src/shared/providers/azure-files/files-azure.service';
+import { CategoryRepository } from '../category/repositories/category/category.repository';
+import { CategoryModule } from '../category/category.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Product, ProductPricingHistory])],
+  imports: [
+    TypeOrmModule.forFeature([Product, ProductPricingHistory]),
+    CategoryModule,
+  ],
   providers: [
     CreateProductService,
     UpdateProductService,
