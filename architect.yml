@@ -10,6 +10,8 @@ secrets:
   db_user: docker
   db_pass: docker
   db_name: postgres
+  azure_connection_string:
+    required: true
 # List of microservices powering our component
 services:
   database:
