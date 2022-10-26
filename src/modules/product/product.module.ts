@@ -13,8 +13,8 @@ import { Product } from './entities/product.entity';
 import { ProductPricingHistory } from './entities/product-pricing-history.entity';
 
 import { FilesAzureService } from 'src/shared/providers/azure-files/files-azure.service';
-import { CategoryRepository } from '../category/repositories/category/category.repository';
 import { CategoryModule } from '../category/category.module';
+import { FindProductByIdService } from './services/find-product-by-id.service';
 
 @Module({
   imports: [
@@ -24,6 +24,7 @@ import { CategoryModule } from '../category/category.module';
   providers: [
     CreateProductService,
     UpdateProductService,
+    FindProductByIdService,
     {
       provide: 'ProductRepositoryInterface',
       useClass: ProductRepository,
