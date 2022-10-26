@@ -15,6 +15,7 @@ import { ProductPricingHistory } from './entities/product-pricing-history.entity
 import { FilesAzureService } from 'src/shared/providers/azure-files/files-azure.service';
 import { CategoryModule } from '../category/category.module';
 import { FindProductByIdService } from './services/find-product-by-id.service';
+import { FindProductsByFieldsService } from './services/find-products-by-fields.service';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { FindProductByIdService } from './services/find-product-by-id.service';
     CreateProductService,
     UpdateProductService,
     FindProductByIdService,
+    FindProductsByFieldsService,
     {
       provide: 'ProductRepositoryInterface',
       useClass: ProductRepository,

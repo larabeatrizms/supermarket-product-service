@@ -4,7 +4,7 @@ import { RpcException } from '@nestjs/microservices';
 import { CategoryRepositoryInterface } from 'src/modules/category/repositories/category/category.interface.repository';
 import { ISuccessResponse } from 'src/shared/interfaces/SuccessResponse.interface';
 import { FilesAzureService } from 'src/shared/providers/azure-files/files-azure.service';
-import { IUpdateProduct } from '../dtos/update-product.interface';
+import { UpdateProductDto } from '../dtos/update-product.dto';
 import { ProductPricingHistoryRepositoryInterface } from '../repositories/product-pricing-history/product-pricing-history.interface.repository';
 import { ProductRepositoryInterface } from '../repositories/product/product.interface.repository';
 
@@ -21,7 +21,7 @@ export class UpdateProductService {
     private readonly fileService: FilesAzureService,
   ) {}
 
-  async execute(data: IUpdateProduct): Promise<ISuccessResponse | Error> {
+  async execute(data: UpdateProductDto): Promise<ISuccessResponse | Error> {
     try {
       this.logger.log('Updating a product...');
 

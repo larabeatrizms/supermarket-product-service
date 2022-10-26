@@ -1,6 +1,6 @@
 import { Inject, Logger } from '@nestjs/common';
 
-import { CreateProductInterface } from '../dtos/create-product.interface';
+import { CreateProductDto } from '../dtos/create-product.dto';
 import { RpcException } from '@nestjs/microservices';
 import { ISuccessResponse } from 'src/shared/interfaces/SuccessResponse.interface';
 import { ProductRepositoryInterface } from '../repositories/product/product.interface.repository';
@@ -21,9 +21,7 @@ export class CreateProductService {
     private readonly fileService: FilesAzureService,
   ) {}
 
-  async execute(
-    data: CreateProductInterface,
-  ): Promise<ISuccessResponse | Error> {
+  async execute(data: CreateProductDto): Promise<ISuccessResponse | Error> {
     try {
       this.logger.log('Creating a product...');
 
