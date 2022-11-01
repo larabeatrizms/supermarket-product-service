@@ -24,6 +24,13 @@ services:
       POSTGRES_USER: ${{ secrets.db_user }}
       POSTGRES_PASSWORD: ${{ secrets.db_pass }}
       POSTGRES_DATABASE: ${{ secrets.db_name }}
+  message-broker:
+    image: rabbitmq:3-management
+    interfaces:
+      mgmt: 15672
+      amqp:
+        protocol: amqp
+        port: 5672
   api:
     depends_on:
       - database
@@ -44,6 +51,7 @@ services:
       HOST: "0.0.0.0"
       AZURE_CONNECTION_STRING: ${{ secrets.azure_connection_string }}
       AZURE_CONTAINER_FILE_NAME: imageupload
+      RABBIT_HOST: ${{ services.message-broker.interfaces.amqp.host }}
     # Mount our src directory to the container and use our dev command so we get hot-reloading
     debug:
       command: npm run start:dev
@@ -57,3 +65,8 @@ interfaces:
   main:
     description: Exposes the API to upstream traffic
     url: ${{ services.api.interfaces.main.url }}
+  mgmt:
+    description: Exposes the management app
+    url: ${{ services.message-broker.interfaces.mgmt.url }}
+    ingress:
+      subdomain: admin

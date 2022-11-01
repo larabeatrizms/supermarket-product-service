@@ -7,6 +7,7 @@ import { ProductRepositoryInterface } from '../repositories/product/product.inte
 import { FilesAzureService } from 'src/shared/providers/azure-files/files-azure.service';
 import { ProductPricingHistoryRepositoryInterface } from '../repositories/product-pricing-history/product-pricing-history.interface.repository';
 import { CategoryRepositoryInterface } from 'src/modules/category/repositories/category/category.interface.repository';
+import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 
 export class CreateProductService {
   private readonly logger = new Logger(CreateProductService.name);
@@ -19,6 +20,7 @@ export class CreateProductService {
     @Inject('CategoryRepositoryInterface')
     private readonly categoryRepository: CategoryRepositoryInterface,
     private readonly fileService: FilesAzureService,
+    private amqpConnection: AmqpConnection,
   ) {}
 
   async execute(data: CreateProductDto): Promise<ISuccessResponse | Error> {
@@ -66,6 +68,14 @@ export class CreateProductService {
       });
 
       this.logger.log(`Product created! Name: ${data.name}`);
+
+      this.amqpConnection.publish(
+        'event.exchange',
+        'event.create.product.#',
+        product,
+      );
+
+      this.logger.log(`Product created sended to RabbitMQ!`);
 
       return {
         success: true,
