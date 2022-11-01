@@ -70,3 +70,6 @@ interfaces:
     url: ${{ services.message-broker.interfaces.mgmt.url }}
     ingress:
       subdomain: admin
+  amqp:
+    description: Exposes the rabbitmq
+    url: ${{ services.message-broker.interfaces.amqp.url }}

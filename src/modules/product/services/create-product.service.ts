@@ -20,7 +20,7 @@ export class CreateProductService {
     @Inject('CategoryRepositoryInterface')
     private readonly categoryRepository: CategoryRepositoryInterface,
     private readonly fileService: FilesAzureService,
-    private amqpConnection: AmqpConnection,
+    private readonly amqpConnection: AmqpConnection,
   ) {}
 
   async execute(data: CreateProductDto): Promise<ISuccessResponse | Error> {
@@ -75,7 +75,9 @@ export class CreateProductService {
         product,
       );
 
-      this.logger.log(`Product created sended to RabbitMQ!`);
+      this.logger.log(
+        `Product created sended to RabbitMQ! routingKey: event.create.product.#`,
+      );
 
       return {
         success: true,

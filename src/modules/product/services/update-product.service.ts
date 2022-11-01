@@ -1,3 +1,4 @@
+import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import { Inject, Logger } from '@nestjs/common';
 
 import { RpcException } from '@nestjs/microservices';
@@ -19,6 +20,7 @@ export class UpdateProductService {
     @Inject('CategoryRepositoryInterface')
     private readonly categoryRepository: CategoryRepositoryInterface,
     private readonly fileService: FilesAzureService,
+    private readonly amqpConnection: AmqpConnection,
   ) {}
 
   async execute(data: UpdateProductDto): Promise<ISuccessResponse | Error> {
@@ -102,6 +104,16 @@ export class UpdateProductService {
       await this.productRepository.update(product);
 
       this.logger.log(`Product updated! Name: ${name} - Price: ${price}`);
+
+      this.amqpConnection.publish(
+        'event.exchange',
+        'event.update.product.#',
+        product,
+      );
+
+      this.logger.log(
+        `Product updated sended to RabbitMQ! routingKey: event.update.product.#`,
+      );
 
       return {
         success: true,
