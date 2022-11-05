@@ -18,6 +18,7 @@ import { CategoryModule } from '../category/category.module';
 import { FindProductByIdService } from './services/find-product-by-id.service';
 import { FindProductsByFieldsService } from './services/find-products-by-fields.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { DeleteProductService } from './services/delete-product.service';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     UpdateProductService,
     FindProductByIdService,
     FindProductsByFieldsService,
+    DeleteProductService,
     {
       provide: 'ProductRepositoryInterface',
       useClass: ProductRepository,

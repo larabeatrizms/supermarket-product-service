@@ -13,7 +13,7 @@ export interface BaseInterfaceRepository<T> {
 
   findAll(): Promise<T[]>;
 
-  remove(id: string): Promise<DeleteResult>;
+  remove(id: number): Promise<DeleteResult>;
 
   findOneWithRelations(relations: any): Promise<T>;
 

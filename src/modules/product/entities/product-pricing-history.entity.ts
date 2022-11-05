@@ -16,7 +16,9 @@ export class ProductPricingHistory {
   @Column()
   product_id: number;
 
-  @ManyToOne(() => Product, (product) => product.pricingHistory)
+  @ManyToOne(() => Product, (product) => product.pricingHistory, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'product_id' })
   product: Product;
 
