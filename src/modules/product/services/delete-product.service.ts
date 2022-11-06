@@ -33,11 +33,9 @@ export class DeleteProductService {
 
     this.logger.log('Product deleted.');
 
-    this.amqpConnection.publish(
-      'event.exchange',
-      'event.delete.product.#',
-      product,
-    );
+    this.amqpConnection.publish('event.exchange', 'event.delete.product.#', {
+      id,
+    });
 
     this.logger.log(
       `Product deleted sended to RabbitMQ! routingKey: event.delete.product.#`,
