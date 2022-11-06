@@ -11,12 +11,14 @@ import { CategoryRepository } from './repositories/category/category.repository'
 import { Category } from './entities/category.entity';
 
 import { FilesAzureService } from 'src/shared/providers/azure-files/files-azure.service';
+import { DeleteCategoryService } from './services/delete-category.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Category])],
   providers: [
     CreateCategoryService,
     UpdateCategoryService,
+    DeleteCategoryService,
     {
       provide: 'CategoryRepositoryInterface',
       useClass: CategoryRepository,

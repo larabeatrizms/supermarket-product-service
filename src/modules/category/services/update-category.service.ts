@@ -3,7 +3,7 @@ import { Inject, Logger } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { ISuccessResponse } from 'src/shared/interfaces/SuccessResponse.interface';
 import { FilesAzureService } from 'src/shared/providers/azure-files/files-azure.service';
-import { IUpdateCategory } from '../dtos/update-category.interface';
+import { UpdateCategoryDto } from '../dtos/update-category.dto';
 import { CategoryRepositoryInterface } from '../repositories/category/category.interface.repository';
 
 export class UpdateCategoryService {
@@ -15,7 +15,7 @@ export class UpdateCategoryService {
     private readonly fileService: FilesAzureService,
   ) {}
 
-  async execute(data: IUpdateCategory): Promise<ISuccessResponse | Error> {
+  async execute(data: UpdateCategoryDto): Promise<ISuccessResponse | Error> {
     try {
       this.logger.log('Updating a category...');
 

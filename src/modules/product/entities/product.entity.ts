@@ -35,12 +35,14 @@ export class Product {
   })
   price: number;
 
-  @Column()
-  category_id: number;
+  @Column({ nullable: true })
+  category_id?: number;
 
-  @ManyToOne(() => Category, (category) => category.products)
+  @ManyToOne(() => Category, (category) => category.products, {
+    onDelete: 'SET NULL',
+  })
   @JoinColumn({ name: 'category_id' })
-  category: Category;
+  category?: Category;
 
   @OneToMany(
     () => ProductPricingHistory,

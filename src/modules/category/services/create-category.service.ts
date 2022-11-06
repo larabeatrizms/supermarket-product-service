@@ -1,6 +1,6 @@
 import { Inject, Logger } from '@nestjs/common';
 
-import { CreateCategoryInterface } from '../dtos/create-category.interface';
+import { CreateCategoryDto } from '../dtos/create-category.dto';
 import { RpcException } from '@nestjs/microservices';
 import { ISuccessResponse } from 'src/shared/interfaces/SuccessResponse.interface';
 import { CategoryRepositoryInterface } from '../repositories/category/category.interface.repository';
@@ -15,9 +15,7 @@ export class CreateCategoryService {
     private readonly fileService: FilesAzureService,
   ) {}
 
-  async execute(
-    data: CreateCategoryInterface,
-  ): Promise<ISuccessResponse | Error> {
+  async execute(data: CreateCategoryDto): Promise<ISuccessResponse | Error> {
     try {
       this.logger.log('Creating a category...');
 
