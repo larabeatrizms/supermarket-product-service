@@ -33,7 +33,7 @@ export class ProductController {
 
   @MessagePattern({ role: 'product', cmd: 'find-product-by-id' })
   findProductById(data: FindProductByIdDto) {
-    return this.findProductByIdService.execute(data.id);
+    return this.findProductByIdService.execute(data);
   }
 
   @MessagePattern({ role: 'product', cmd: 'find-products-by-fields' })

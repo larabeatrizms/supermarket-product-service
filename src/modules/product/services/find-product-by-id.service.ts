@@ -1,4 +1,5 @@
 import { BadRequestException, Inject, Logger } from '@nestjs/common';
+import { FindProductByIdDto } from '../dtos/find-product-by-id.dto';
 import { Product } from '../entities/product.entity';
 import { ProductRepositoryInterface } from '../repositories/product/product.interface.repository';
 
@@ -10,15 +11,18 @@ export class FindProductByIdService {
     private readonly productRepository: ProductRepositoryInterface,
   ) {}
 
-  async execute(id: number): Promise<Product | Error> {
-    this.logger.log(`Searching product... id: ${id}`);
+  async execute(
+    findProductByIdDto: FindProductByIdDto,
+  ): Promise<Product | Error> {
+    this.logger.log(`Searching product... id: ${findProductByIdDto.id}`);
 
     const product = await this.productRepository.findOneWithRelations({
       where: {
-        id,
+        id: findProductByIdDto.id,
       },
       relations: {
         category: true,
+        pricingHistory: findProductByIdDto.show_pricing_history,
       },
     });
 
